@@ -1,0 +1,108 @@
+body{
+    background: linear-gradient(135deg, #e3f2fd, #f5f5f5);
+}
+.bike-page {
+  padding: 1rem;
+  background: #f9f9f9;
+}
+
+.search-box input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 300px;
+}
+
+.bike-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.bike-table th, .bike-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.bike-table th {
+  background-color: #f5f5f5;
+}
+
+.edit-btn, .delete-btn {
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+.edit-btn {
+  background: #4caf50;
+  color: white;
+  margin-right: 5px;
+}
+
+.delete-btn {
+  background: #f44336;
+  color: white;
+}
+
+/* ✅ Modal Popup */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal {
+  background: white;
+  border-radius: 10px;
+  padding: 20px 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  text-align: center;
+  max-width: 400px;
+}
+
+.modal-buttons {
+  margin-top: 15px;
+}
+
+.confirm-btn, .cancel-btn {
+  padding: 8px 15px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.confirm-btn {
+  background: #4caf50;
+  color: white;
+}
+
+.cancel-btn {
+  background: #f44336;
+  color: white;
+}
+.add-btn {
+  background: #0070f3;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background 0.2s ease-in-out;
+}
+
+.add-btn:hover {
+  background: #005bb5;
+}

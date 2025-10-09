@@ -1,0 +1,80 @@
+.container {
+  padding: 1rem;
+}
+
+.heading {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* ✅ Search Box */
+.search-box {
+  margin: 10px 0;
+}
+
+.search-box input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 300px;
+}
+
+.bike-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.bike-table th,
+.bike-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.bike-table th {
+  background: #f2f2f2;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.status.pending {
+  color: #ffa500;
+}
+
+.status.approved {
+  color: green;
+}
+
+.status.returned {
+  color: blue;
+}
+
+.status.rejected {
+  color: red;
+}
+
+.status.cancelled {
+  color: gray;
+}
+
+.status.lost-pending {
+  color: #ffa500;
+}
+
+.cancel-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  background: darkred;
+}

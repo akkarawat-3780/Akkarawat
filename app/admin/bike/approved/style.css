@@ -1,0 +1,171 @@
+body{
+    background: linear-gradient(135deg, #e3f2fd, #f5f5f5);
+}
+.admin-borrow-container {
+  padding: 1rem;
+  background: #f9f9f9;
+}
+
+.search-box {
+  margin: 10px 0;
+}
+
+.search-box input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 300px;
+}
+
+.borrow-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.borrow-table th,
+.borrow-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.borrow-table th {
+  background-color: #f5f5f5;
+}
+
+.no-data {
+  text-align: center;
+  color: gray;
+  padding: 1rem;
+}
+
+.btn {
+  padding: 6px 12px;
+  margin: 2px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-approve {
+  background: green;
+  color: white;
+}
+
+.btn-reject {
+  background: red;
+  color: white;
+}
+
+.btn-return {
+  background: #2196f3;
+  color: white;
+}
+/* ✅ popup success (แสดงตรงกลางจอ) */
+.success-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-left: 8px solid #4CAF50;
+  color: #2e7d32;
+  font-weight: bold;
+  padding: 30px 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  text-align: center;
+  z-index: 1500;
+  animation: fadeInOut 3s ease forwards;
+}
+
+.success-popup .icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, -55%); }
+  10% { opacity: 1; transform: translate(-50%, -50%); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -45%); }
+}
+
+/* ✅ modal (เหมือนเดิม) */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  border-radius: 10px;
+  padding: 20px 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  text-align: center;
+  max-width: 400px;
+}
+
+.modal-buttons {
+  margin-top: 15px;
+}
+
+.confirm-btn, .cancel-btn {
+  padding: 8px 15px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.confirm-btn { background: #4caf50; color: white; }
+.cancel-btn { background: #f44336; color: white; }
+/* ✅ ป้ายสถานะ (Status Tag) */
+.status-tag {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  min-width: 110px;
+}
+
+/* 🟡 อยู่ระหว่างการตรวจสอบ */
+.status-tag.pending {
+  color: #ffcc00;
+}
+
+/* 🟢 อนุมัติ */
+.status-tag.approved {
+  color: #4caf50;
+}
+
+/* 🔴 ไม่อนุมัติ */
+.status-tag.rejected {
+  color: #f44336;
+}
+
+/* 🔵 คืนแล้ว */
+.status-tag.returned {
+  color: #2196f3;
+}
+
+/* ⚫ ยกเลิก */
+.status-tag.cancelled {
+  color: #757575;
+}
+
+/* 🟣 แจ้งหาย */
+.status-tag.lost {
+  color: #9c27b0;
+}

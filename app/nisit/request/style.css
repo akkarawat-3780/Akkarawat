@@ -1,0 +1,138 @@
+admin-bike.css
+.page-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+  font-family: sans-serif;
+}
+
+h1 {
+  margin-bottom: 1rem;
+}
+
+button {
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+th, td {
+  padding: 12px 16px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+img {
+  border-radius: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  th {
+    display: none;
+  }
+
+  td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  td::before {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+
+  td:nth-of-type(1)::before { content: "รหัส"; }
+  td:nth-of-type(2)::before { content: "รูปภาพ"; }
+  td:nth-of-type(3)::before { content: "สถานะ"; }
+  td:nth-of-type(4)::before { content: "การจัดการ"; }
+}
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ✅ สีของสถานะ */
+.status-available {
+  color: #4caf50; /* เขียว */
+}
+
+.status-pending {
+  color: #ff9800; /* ส้ม */
+}
+
+.status-unavailable {
+  color: #f44336; /* แดง */
+}
+
+.status-default {
+  color: #9e9e9e; /* เทา */
+}
+
+/* ปุ่มจอง */
+.action-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #1976d2;
+  color: white;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.action-btn:hover:not(:disabled) {
+  background-color: #125ea8;
+}
+
+.action-btn:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+/* ตาราง */
+.bike-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.bike-table th,
+.bike-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.bike-img {
+  border-radius: 6px;
+}

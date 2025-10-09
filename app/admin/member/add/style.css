@@ -1,0 +1,126 @@
+body{
+    background: linear-gradient(135deg, #e3f2fd, #f5f5f5);
+}
+/* กล่องฟอร์ม */
+.title {
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  color: #2e7d67; /* เขียวมิ้นต์เข้ม */
+  margin-bottom: 30px;
+}
+.register-form-container {
+  max-width: 600px;
+  margin: 100px auto 50px; /* ✅ เว้นระยะบนให้ Navbar */
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.4s ease-in-out;
+}
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.row i {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #87cbb9;
+  z-index: 1;
+}
+
+.row input,
+.row select {
+  width: 100%;
+  padding: 12px 15px 12px 40px;
+  border: 1px solid #bdebd5;
+  border-radius: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+  background-color: #f8fffb;
+}
+
+.row input:focus,
+.row select:focus {
+  border-color: #2e7d67;
+  outline: none;
+}
+
+.button {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.button button {
+  width: 100%;
+  padding: 12px;
+  background: #7ed6c0;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.button button:hover {
+  background: #60c3aa;
+}
+.row-name .name-fields {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.row-name .name-fields input {
+  flex: 1;
+}
+.red{
+  color: red;
+
+}
+
+/* fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* เพิ่มสำหรับ highlight error */
+.error-input {
+  border: 2px solid red !important;
+  background-color: #ffe6e6;
+}
+
+.error-input:focus {
+  outline: none;
+  box-shadow: 0 0 5px red;
+}
+/* highlight input ผิดพลาด */
+.error-input {
+  border: 2px solid red !important;
+  background-color: #ffeaea;
+}
+
+/* ข้อความเตือนใต้ input */
+.error-text {
+  color: red;
+  font-size: 0.85rem;
+  margin: 2px 0 10px 35px;
+  text-align: left;
+}
+
+/* hover/focus effect */
+.error-input:focus {
+  outline: none;
+  box-shadow: 0 0 6px rgba(255, 0, 0, 0.5);
+}

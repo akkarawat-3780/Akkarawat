@@ -1,0 +1,119 @@
+/* Admin Profile - Cocomint Theme */
+
+.wrapper {
+  width: 420px;
+  margin: 40px auto;
+  padding: 40px 30px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: #2e7d67;
+  margin-bottom: 30px;
+}
+
+.profile-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 20px;
+  border: 3px solid #7ed6c0;
+}
+
+.row {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.row i {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #87cbb9;
+  z-index: 1;
+}
+
+.row input {
+  width: 100%;
+  padding: 12px 15px 12px 40px;
+  border: 1px solid #bdebd5;
+  border-radius: 10px;
+  font-size: 16px;
+  background-color: #f8fffb;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.row select {
+  width: 100%;
+  padding: 12px 15px 12px 40px;
+  border: 1px solid #bdebd5;
+  border-radius: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+  background-color: #f8fffb;
+}
+
+.row input:focus {
+  border-color: #2e7d67;
+  outline: none;
+}
+
+.button {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.button button {
+  width: 100%;
+  padding: 12px;
+  background: #7ed6c0;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.button button:hover {
+  background: #60c3aa;
+}
+
+.link-button {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+  color: #2e7d67;
+  font-size: 14px;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+.file-name {
+  text-align: center;
+  color: #888;
+  font-size: 13px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+.row-name .name-fields {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.row-name .name-fields input {
+  flex: 1;
+}
