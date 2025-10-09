@@ -218,7 +218,7 @@ export default function AdminLossReportPage() {
               <div className="receipt-preview">
                 <p><b>ใบเสร็จ:</b></p>
                 {approveModal.report.LossReport_receipt ? (
-                  <Image
+                  <img
                     src={approveModal.report.LossReport_receipt}
                     alt="ใบเสร็จ"
                     className="receipt-image"

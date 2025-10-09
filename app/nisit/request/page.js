@@ -68,7 +68,7 @@ export default function BikeListPage() {
               <tr key={bike.Bicycle_ID}>
                 <td>{bike.Bicycle_ID}</td>
                 <td>
-                  <Image src={bike.Image} alt="bike" className="bike-img" width="80" />
+                  <img src={bike.Image} alt="bike" className="bike-img" width="80" />
                 </td>
                 <td>
                   <span className={`status-badge ${getStatusClass(bike.Bicycle_Status)}`}>

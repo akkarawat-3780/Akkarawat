@@ -68,7 +68,7 @@ const handleFileChange = (e) => {
         <h1 className="title">แก้ไขข้อมูลผู้ดูแลระบบ</h1>
 
         <div className="row">
-          <Image src={previewUrl || admin.profile} alt="profile" className="profile-preview"/>
+          <img src={previewUrl || admin.profile} alt="profile" className="profile-preview"/>
         </div>
         <div className="row">
           <i className="fas fa-envelope"></i>

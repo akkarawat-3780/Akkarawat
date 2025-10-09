@@ -85,7 +85,7 @@ const handleFileChange = (e) => {
         <h1 className='title'>แก้ไขข้อมูลนิสิต</h1>
 
         <div className="row">
-          <Image src={previewUrl || user.profile} alt="profile" className="profile-preview"/>
+          <img src={previewUrl || user.profile} alt="profile" className="profile-preview"/>
         </div>
 
         <div className="row">

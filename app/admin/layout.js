@@ -39,7 +39,7 @@ export default function Navbar({ children }) {
         <h2 className='logo'>🚲 KU-Bike</h2>
 
         <div className="navbar-right" ref={dropdownRef}>
-          <Image
+          <img
             src={profile}
             alt="Profile"
             className="profile-img"
@@ -55,7 +55,7 @@ export default function Navbar({ children }) {
       <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <button className="close-btn" onClick={() => setSidebarOpen(false)}>✖</button>
         <div className="sidebar-profile">
-          <Image src={profile} alt="Profile" className="sidebar-img" />
+          <img src={profile} alt="Profile" className="sidebar-img" />
           <p>ผู้ดูแลระบบ</p>
         </div>
         <Link href="/admin/dashboard/borrow-stats" onClick={() => setSidebarOpen(false)}>📜 รายงานการจอง</Link>

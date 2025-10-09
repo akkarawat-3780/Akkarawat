@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState ,Image } from 'react';
+import { useEffect, useState } from 'react';
 import "./style.css";
 
 export default function AdminBikePage() {
@@ -58,7 +58,7 @@ export default function AdminBikePage() {
           {filteredBikes.map(b => (
             <tr key={b.Bicycle_ID}>
               <td>{b.Bicycle_ID}</td>
-              <td>{b.Image && <Image src={b.Image} width="80" />}</td>
+              <td>{b.Image && <img src={b.Image} width="80" />}</td>
               <td>{b.Bicycle_Status}</td>
               <td>
                 <button

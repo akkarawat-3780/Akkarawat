@@ -39,7 +39,7 @@ export default function Navbar({ children }) {
         </div>
 
         <div className="navbar-right">
-          <Image
+          <img
             src={profile}
             alt="Profile"
             className="profile-img"
@@ -55,7 +55,7 @@ export default function Navbar({ children }) {
       <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <button className="close-btn" onClick={() => setSidebarOpen(false)}>✖</button>
         <div className="sidebar-profile">
-          <Image src={profile} alt="Profile" className="sidebar-img" />
+          <img src={profile} alt="Profile" className="sidebar-img" />
           <p>นิสิต</p>
         </div>
         <Link href="/nisit/request" onClick={() => setSidebarOpen(false)}>📌 จองจักรยาน</Link>
