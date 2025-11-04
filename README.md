@@ -37,4 +37,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## วิดีโอนำเสนอโครงงานวิทยาการคอมพิวเตอร์
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[ลิ้งสำหรับเข้าดูวิดีโอนำเสนอโครงงาน](https://youtu.be/_lzW6UAOxxA) 
