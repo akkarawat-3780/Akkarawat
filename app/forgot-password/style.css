@@ -52,3 +52,40 @@
 .forgot-button:hover {
   background: #005bb5;
 }
+/* 🔹 ฟิลด์ error */
+.error-input {
+  border: 2px solid #f44336 !important;
+  background: #fff6f6;
+}
+
+.error-text {
+  color: #f44336;
+  font-size: 0.9rem;
+  margin-top: 4px;
+  text-align: left;
+}
+
+/* 🔹 Popup สวยงาม (เหมือนก่อนหน้า) */
+.success-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  font-size: 1.1rem;
+  font-weight: 500;
+  z-index: 1000;
+  text-align: center;
+  animation: fadeInOut 3s ease forwards;
+  border-left: 6px solid #4CAF50;
+  color: #2e7d32;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, -45%); }
+  10%, 90% { opacity: 1; transform: translate(-50%, -50%); }
+  100% { opacity: 0; transform: translate(-50%, -55%); }
+}

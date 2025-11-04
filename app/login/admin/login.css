@@ -1,14 +1,16 @@
-/* login.css - Cocomint Theme */
+/* login.css - Cocomint Theme (Revised for Icon Alignment) */
 
+/* === General Body and Container Styles === */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #a8edea, #fed6e3); /* มิ้นต์-ชมพูอ่อน */
+  background: linear-gradient(135deg, #a8edea, #fed6e3);
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .wrapper {
@@ -23,26 +25,24 @@ body {
   font-size: 26px;
   font-weight: bold;
   text-align: center;
-  color: #2e7d67; /* เขียวมิ้นต์เข้ม */
+  color: #2e7d67;
   margin-bottom: 30px;
 }
 
+/* === Input Row Layout (Key Section for the Fix) === */
 .row {
+  /* This creates the positioning context for the icons inside it. */
   position: relative;
   margin-bottom: 25px;
 }
 
-.row i {
-  position: absolute;
-  top: 50%;
-  left: 15px;
-  transform: translateY(-50%);
-  color: #87cbb9;
-}
-
 .row input {
-  width: 85%;
-  padding: 12px 15px 12px 40px;
+  /* Make the input fill the entire row container. */
+  width: 100%;
+  /* Important: Includes padding and border in the total width, preventing overflow. */
+  box-sizing: border-box;
+  /* Creates space on the LEFT and RIGHT for the icons. */
+  padding: 12px 45px 12px 45px;
   border: 1px solid #bdebd5;
   border-radius: 10px;
   font-size: 16px;
@@ -55,10 +55,32 @@ body {
   outline: none;
 }
 
-.row.button {
-  text-align: center;
+/* === Icon Styling === */
+/* This targets the LEFT-SIDE icons (user and lock). */
+.row .fa-user,
+.row .fa-lock {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #87cbb9;
+  /* Ensures the icon is above the input field's background. */
+  z-index: 2;
 }
 
+/* This specifically targets the RIGHT-SIDE password toggle icon. */
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  /* Position from the right edge of the row. */
+  right: 15px;
+  transform: translateY(-50%);
+  color: #87cbb9;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* === Button and Link Styles === */
 .row.button button {
   width: 100%;
   padding: 12px;
@@ -75,7 +97,6 @@ body {
   background: #60c3aa;
 }
 
-/* ปรับตำแหน่งลืมรหัสผ่านไปขวา */
 .pass {
   text-align: right;
   margin-top: -15px;
@@ -92,7 +113,6 @@ body {
   text-decoration: underline;
 }
 
-/* ปรับตำแหน่งสมัครสมาชิกให้อยู่ตรงกลาง */
 .signup-link {
   text-align: center;
   margin-top: 20px;

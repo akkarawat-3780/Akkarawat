@@ -7,6 +7,7 @@ export async function GET() {
     const [rows] = await db.execute(`
       SELECT 
     lr.LossReport_ID,
+    lr.remark,
     lr.Bicycle_ID,
     n.nisit_ID,
     n.prefix,

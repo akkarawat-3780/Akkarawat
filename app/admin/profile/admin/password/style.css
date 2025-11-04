@@ -1,111 +1,176 @@
-/* Admin Profile - Cocomint Theme */
-body{
-    background: linear-gradient(135deg, #e3f2fd, #f5f5f5);
+/* 🌿 Admin Change Password - Cocomint (Stable Layout Version) */
+body {
+  font-family: "Prompt", sans-serif;
+  background: linear-gradient(135deg, #e8f8f5, #f5fdfc);
+  margin: 0;
+  padding: 0;
 }
+
+/* 🔹 Container หลัก */
 .wrapper {
-  width: 420px;
-  margin: 40px auto;
-  padding: 40px 30px;
-  background: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* min-height: 100vh; */
+  /* padding: 2rem; */
 }
 
-.title {
-  font-size: 24px;
-  font-weight: bold;
+/* 🔹 กล่องฟอร์ม */
+form {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
   text-align: center;
+}
+
+/* 🔹 หัวข้อ */
+.title {
+  font-size: 1.8rem;
   color: #2e7d67;
-  margin-bottom: 30px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.profile-preview {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 50%;
-  display: block;
-  margin: 0 auto 20px;
-  border: 3px solid #7ed6c0;
+.title i {
+  color: #ffb74d;
 }
 
+/* 🔹 กล่อง input (Wrapper สำหรับ icon + input + toggle icon) */
 .row {
   position: relative;
-  margin-bottom: 20px;
+  width: 100%;
 }
 
-.row i {
+/* 🔹 ไอคอนด้านซ้าย */
+.row i.fas.fa-lock {
   position: absolute;
   top: 50%;
-  left: 15px;
+  left: 14px;
   transform: translateY(-50%);
   color: #87cbb9;
-  z-index: 1;
+  font-size: 1rem;
 }
 
+/* 🔹 ช่องกรอกรหัสผ่าน */
 .row input {
-  width: 100%;
-  padding: 12px 15px 12px 40px;
-  border: 1px solid #bdebd5;
-  border-radius: 10px;
-  font-size: 16px;
-  background-color: #f8fffb;
-  transition: border-color 0.3s;
   box-sizing: border-box;
+  width: 100%;
+  padding: 10px 40px 10px 40px;
+  border: 1.5px solid #bdebd5;
+  border-radius: 10px;
+  background: #f8fffb;
+  font-size: 1rem;
+  color: #2e7d67;
+  transition: border-color 0.2s ease;
+}
+
+.row input::placeholder {
+  color: #9bbcb1;
 }
 
 .row input:focus {
-  border-color: #2e7d67;
+  border-color: #7ed6c0;
   outline: none;
+  box-shadow: 0 0 0 3px rgba(126, 214, 192, 0.15);
 }
 
+/* 🔹 ไอคอนซ่อน/แสดงรหัสผ่าน */
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #87cbb9;
+  transition: color 0.2s ease;
+  font-size: 1rem;
+}
+
+.toggle-password:hover {
+  color: #2e7d67;
+}
+
+/* 🔹 ปุ่มบันทึก */
 .button {
-  text-align: center;
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
 }
 
 .button button {
   width: 100%;
-  padding: 12px;
   background: #7ed6c0;
+  color: white;
   border: none;
   border-radius: 10px;
-  color: white;
-  font-size: 16px;
+  padding: 10px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background 0.3s;
+  font-weight: 600;
+  transition: background 0.25s ease, transform 0.1s ease;
 }
 
 .button button:hover {
   background: #60c3aa;
+  transform: scale(1.02);
 }
 
+.button button:disabled {
+  background: #b6e8d7;
+  cursor: not-allowed;
+}
+
+/* 🔹 ปุ่มย้อนกลับ */
 .link-button {
-  display: inline-block;
-  margin-top: 10px;
-  text-decoration: none;
   color: #2e7d67;
-  font-size: 14px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .link-button:hover {
   text-decoration: underline;
+  color: #246654;
 }
 
-.file-name {
+/* 🔹 Popup แจ้งเตือน */
+.success-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 1.05rem;
+  font-weight: 500;
+  z-index: 1000;
   text-align: center;
-  color: #888;
-  font-size: 13px;
-  margin-top: -10px;
-  margin-bottom: 10px;
-}
-.row-name .name-fields {
-  display: flex;
-  gap: 10px;
-  width: 100%;
+  border-left: 6px solid #4caf50;
+  color: #2e7d32;
+  animation: fadeInOut 3s ease forwards;
 }
 
-.row-name .name-fields input {
-  flex: 1;
+.success-popup.error {
+  border-left-color: #f44336;
+  color: #d32f2f;
 }
 
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, -45%); }
+  10%, 90% { opacity: 1; transform: translate(-50%, -50%); }
+  100% { opacity: 0; transform: translate(-50%, -55%); }
+}

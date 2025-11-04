@@ -39,15 +39,18 @@ export default function Navbar({ children }) {
         </div>
 
         <div className="navbar-right">
-          <img
-            src={profile}
-            alt="Profile"
-            className="profile-img"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = '/default-profile.png';
-            }}
-          />
+          <Link href="/nisit/profile/nisit">
+            <img
+              src={profile}
+              alt="Profile"
+              className="profile-img"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/default-profile.png';
+              }}
+              style={{ cursor: 'pointer' }}
+            />
+          </Link>
         </div>
       </nav>
 

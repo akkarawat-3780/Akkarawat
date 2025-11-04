@@ -31,64 +31,64 @@ export default function ReserveBikePage() {
     setTimeout(() => setPopup({ show: false, message: '', type: '' }), 3000);
   };
 
-  useEffect(() => {
-    const match = document.cookie.match(/email=([^;]+)/);
-    const today = new Date();
+useEffect(() => {
+    const match = document.cookie.match(/email=([^;]+)/);
+    const today = new Date();
 
-    setForm({
-      Borrow_ID: 'BR' + Date.now().toString().slice(-6),
-      Borrow_Date: formatDateLocal(today),
-      due_date: '',
-      nisit_email: match ? decodeURIComponent(match[1]) : '',
-      Bicycle_ID: id
-    });
-  }, [id]);
+    // ❌ ลบการสร้าง Borrow_ID จาก localStorage ออก
+    // เนื่องจากจะสร้าง Borrow_ID ที่ฝั่ง Server (API Route) แทน
+
+    setForm({
+      Borrow_ID: '', // ✅ กำหนดให้เป็นค่าว่าง หรือลบออกจาก state ก็ได้ เพราะจะถูกสร้างบน Server
+      Borrow_Date: formatDateLocal(today),
+      due_date: "",
+      nisit_email: match ? decodeURIComponent(match[1]) : "",
+      Bicycle_ID: id,
+    });
+  }, [id]);
+
 
   const handleInput = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    // ✅ ตรวจสอบข้อมูลก่อนส่ง
-    if (!form.Borrow_Date || !form.due_date) {
-      showPopup('⚠️ กรุณาเลือกวันที่ยืมและวันครบกำหนดให้ครบ');
-      return;
-    }
+    // ✅ ตรวจสอบข้อมูลก่อนส่ง
+    if (!form.Borrow_Date || !form.due_date) {
+      showPopup('⚠️ กรุณาเลือกวันที่ยืมและวันครบกำหนดให้ครบ');
+      return;
+    }
 
-    // if (!form.nisit_email) {
-    //   showPopup('⚠️ ไม่พบอีเมลผู้ใช้ กรุณาเข้าสู่ระบบใหม่');
-    //   return;
-    // }
+    if (!form.Bicycle_ID) {
+      showPopup('⚠️ ไม่พบรหัสจักรยาน');
+      return;
+    }
 
-    if (!form.Bicycle_ID) {
-      showPopup('⚠️ ไม่พบรหัสจักรยาน');
-      return;
-    }
+    if (new Date(form.due_date) <= new Date(form.Borrow_Date)) {
+      showPopup('⚠️ วันครบกำหนดต้องหลังจากวันที่ยืมอย่างน้อย 1 วัน');
+      return;
+    }
 
-    if (new Date(form.due_date) <= new Date(form.Borrow_Date)) {
-      showPopup('⚠️ วันครบกำหนดต้องหลังจากวันที่ยืมอย่างน้อย 1 วัน');
-      return;
-    }
+    // ✅ ถ้าข้อมูลครบ → ส่งข้อมูล
+    const res = await fetch('/api/borrow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form)
+    });
 
-    // ✅ ถ้าข้อมูลครบ → ส่งข้อมูล
-    const res = await fetch('/api/borrow', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form)
-    });
-
-    if (res.ok) {
-      showPopup('✅ จองจักรยานสำเร็จ', 'success');
-      setTimeout(() => {
-        window.location.href = '/nisit/history';
-      }, 1500);
-    } else {
-      const data = await res.json();
-      showPopup('❌ ' + (data.message || 'จองไม่สำเร็จ'));
-    }
-  };
+    if (res.ok) {
+        const data = await res.json();
+      showPopup('✅ จองจักรยานสำเร็จ รหัส: ' + data.Borrow_ID, 'success'); // ⬅️ แสดง Borrow_ID ที่ได้กลับมา
+      setTimeout(() => {
+        window.location.href = '/nisit/history';
+      }, 1500);
+    } else {
+      const data = await res.json();
+      showPopup('❌ ' + (data.message || 'จองไม่สำเร็จ'));
+    }
+  };
 
   return (
     <div className="reserve-container">

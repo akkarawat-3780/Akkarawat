@@ -6,10 +6,11 @@ import "./style.css";
 export default function AdminMembersPage() {
   const [members, setMembers] = useState([]);
   const [search, setSearch] = useState("");
-  const [deleteTarget, setDeleteTarget] = useState(null); // นิสิตที่จะลบ
-  const [message, setMessage] = useState(null); // ✅ สำหรับ popup แจ้งเตือน/สำเร็จ
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1); // ✅ หน้าปัจจุบัน
+  const itemsPerPage = 20; // ✅ 20 รายการต่อหน้า
 
-  // โหลดข้อมูลสมาชิก
   const fetchMembers = async () => {
     try {
       const res = await fetch("/api/members");
@@ -22,10 +23,9 @@ export default function AdminMembersPage() {
   };
 
   useEffect(() => {
-    
     fetchMembers();
   }, []);
-  // ✅ ให้ popup หายเองหลัง 3 วินาที
+
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => setMessage(null), 3000);
@@ -33,7 +33,6 @@ export default function AdminMembersPage() {
     }
   }, [message]);
 
-  // ✅ ตรวจสอบก่อนลบ ว่านิสิตมีรายการอยู่ไหม
   const handleDeleteConfirm = async () => {
     if (!deleteTarget) return;
 
@@ -50,7 +49,6 @@ export default function AdminMembersPage() {
         return;
       }
 
-      // ✅ ถ้าไม่มีรายการค้าง → ลบได้
       const res = await fetch(`/api/members/${deleteTarget}/status`, {
         method: "DELETE",
       });
@@ -78,6 +76,7 @@ export default function AdminMembersPage() {
     }
   };
 
+  // ✅ ฟิลเตอร์ตามการค้นหา
   const filteredMembers = members.filter((m) =>
     (
       m.Nisit_ID +
@@ -100,6 +99,19 @@ export default function AdminMembersPage() {
       .includes(search.toLowerCase())
   );
 
+  // ✅ แบ่งหน้า
+  const totalPages = Math.ceil(filteredMembers.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentMembers = filteredMembers.slice(startIndex, startIndex + itemsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
   return (
     <div className="members-container">
       <h1 className="members-title">👥 จัดการสมาชิก</h1>
@@ -107,7 +119,7 @@ export default function AdminMembersPage() {
         className="add-btn"
         onClick={() => (window.location.href = `/admin/member/add`)}
       >
-        เพิ่มข้อมูลนิสิต
+        ➕ เพิ่มข้อมูลนิสิต
       </button>
 
       <div className="search-box">
@@ -115,7 +127,10 @@ export default function AdminMembersPage() {
           type="text"
           placeholder="🔍 ค้นหาสมาชิก..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setCurrentPage(1); // ✅ รีเซ็ตกลับหน้าแรก
+          }}
         />
       </div>
 
@@ -133,7 +148,7 @@ export default function AdminMembersPage() {
           </tr>
         </thead>
         <tbody>
-          {filteredMembers.map((m) => (
+          {currentMembers.map((m) => (
             <tr key={m.nisit_email}>
               <td>{m.Nisit_ID}</td>
               <td>
@@ -153,7 +168,7 @@ export default function AdminMembersPage() {
               </td>
             </tr>
           ))}
-          {filteredMembers.length === 0 && (
+          {currentMembers.length === 0 && (
             <tr>
               <td colSpan="7" className="no-data">
                 ไม่พบข้อมูลสมาชิก
@@ -163,7 +178,30 @@ export default function AdminMembersPage() {
         </tbody>
       </table>
 
-      {/* ✅ Popup ยืนยันการลบ */}
+      {/* ✅ Pagination */}
+      {filteredMembers.length > 0 && (
+        <div className="pagination">
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className="page-btn"
+          >
+            ⬅ ก่อนหน้า
+          </button>
+          <span>
+            หน้า {currentPage} จาก {totalPages || 1}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages || totalPages === 0}
+            className="page-btn"
+          >
+            ถัดไป ➡
+          </button>
+        </div>
+      )}
+
+      {/* ✅ Modal ยืนยันลบ */}
       {deleteTarget && (
         <div className="modal-overlay">
           <div className="modal">
@@ -186,19 +224,19 @@ export default function AdminMembersPage() {
         </div>
       )}
 
-            {/* ✅ Popup แจ้งผลลบหรือข้อผิดพลาด */}
-        {message && (
-          <div
-            className={`success-popup ${
-              message.type === "error" ? "error" : "success"
-            }`}
-          >
-            <h3>
-              {message.type === "success" ? "✅ สำเร็จ" : "⚠️ ไม่สามารถลบได้"}
-            </h3>
-            <p>{message.text}</p>
-          </div>
-        )}
+      {/* ✅ Popup แจ้งผล */}
+      {message && (
+        <div
+          className={`success-popup ${
+            message.type === "error" ? "error" : "success"
+          }`}
+        >
+          <h3>
+            {message.type === "success" ? "✅ สำเร็จ" : "⚠️ ไม่สามารถลบได้"}
+          </h3>
+          <p>{message.text}</p>
+        </div>
+      )}
     </div>
   );
 }

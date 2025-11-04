@@ -7,12 +7,12 @@ export async function PUT(req, { params }) {
 
     // 1. อัปเดตสถานะการยืม
     await db.execute(
-      `UPDATE bicycle_borrow_request
-       SET borrow_status = 'คืนแล้ว',
-           return_date = CURDATE()
-       WHERE Borrow_ID = ?`,
-      [id]
+        `UPDATE bicycle_borrow_request
+        SET borrow_status = 'คืนแล้ว', return_date = CURDATE()
+        WHERE Borrow_ID = ? AND borrow_status = 'อนุมัติ'`,
+        [id]
     );
+
 
     // 2. คืนสถานะจักรยานเป็น "ว่าง"
     await db.execute(

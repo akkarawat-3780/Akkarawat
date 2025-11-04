@@ -6,12 +6,12 @@ import "./style.css";
 export default function AdminBorrowPage() {
   const [borrows, setBorrows] = useState([]);
   const [search, setSearch] = useState("");
-
-  // ✅ modal สำหรับยืนยันก่อนทำรายการ
   const [modal, setModal] = useState({ open: false, type: "", id: "", status: "" });
-
-  // ✅ popup แจ้งผลลัพธ์
   const [successPopup, setSuccessPopup] = useState({ show: false, message: "" });
+
+  // ✅ Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   useEffect(() => {
     loadBorrows();
@@ -31,7 +31,7 @@ export default function AdminBorrowPage() {
 
   const showSuccess = (message) => {
     setSuccessPopup({ show: true, message });
-    setTimeout(() => setSuccessPopup({ show: false, message: "" }), 3000); // ⏱️ หายไปใน 3 วิ
+    setTimeout(() => setSuccessPopup({ show: false, message: "" }), 3000);
   };
 
   const confirmAction = async () => {
@@ -58,7 +58,6 @@ export default function AdminBorrowPage() {
         await loadBorrows();
       }
     }
-
     closeModal();
   };
 
@@ -68,11 +67,25 @@ export default function AdminBorrowPage() {
     return `${String(d.getDate()).padStart(2, "0")}-${String(d.getMonth() + 1).padStart(2, "0")}-${d.getFullYear()}`;
   }
 
+  // ✅ กรองข้อมูล
   const filteredBorrows = borrows.filter(b =>
     (b.Borrow_ID + " " + b.Bicycle_ID + " " + b.borrow_status + " " + b.Nisit_ID)
       .toLowerCase()
       .includes(search.toLowerCase())
   );
+
+  // ✅ แบ่งหน้า
+  const totalPages = Math.ceil(filteredBorrows.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentBorrows = filteredBorrows.slice(startIndex, startIndex + itemsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(prev => prev - 1);
+  };
 
   return (
     <div className="admin-borrow-container">
@@ -83,7 +96,10 @@ export default function AdminBorrowPage() {
           type="text"
           placeholder="🔍 ค้นหารหัสการจอง / วันที่ / สถานะ..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setCurrentPage(1); // รีเซ็ตหน้าเมื่อค้นหาใหม่
+          }}
         />
       </div>
 
@@ -104,7 +120,7 @@ export default function AdminBorrowPage() {
           </tr>
         </thead>
         <tbody>
-          {filteredBorrows.map(b => (
+          {currentBorrows.map(b => (
             <tr key={b.Borrow_ID}>
               <td>{b.Borrow_ID}</td>
               <td>{b.Bicycle_ID}</td>
@@ -113,8 +129,8 @@ export default function AdminBorrowPage() {
               <td>{formatDate(b.return_date)}</td>
               <td>{b.Nisit_ID}</td>
               <td>{b.prefix} {b.First_Name} {b.Last_Name}</td>
-              <td>{b.department_name}</td>
               <td>{b.faculty_name}</td>
+              <td>{b.department_name}</td>
               <td>
                 <span
                   className={`status-tag ${
@@ -164,13 +180,34 @@ export default function AdminBorrowPage() {
               </td>
             </tr>
           ))}
-          {filteredBorrows.length === 0 && (
+          {currentBorrows.length === 0 && (
             <tr>
               <td colSpan="11" className="no-data">ไม่พบข้อมูลการจอง</td>
             </tr>
           )}
         </tbody>
       </table>
+
+      {/* ✅ Pagination */}
+      {filteredBorrows.length > 0 && (
+        <div className="pagination">
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className="page-btn"
+          >
+            ⬅ ก่อนหน้า
+          </button>
+          <span>หน้า {currentPage} จาก {totalPages}</span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="page-btn"
+          >
+            ถัดไป ➡
+          </button>
+        </div>
+      )}
 
       {/* ✅ Modal ยืนยัน */}
       {modal.open && (

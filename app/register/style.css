@@ -75,15 +75,33 @@ form {
 .button button:hover {
   background: #60c3aa;
 }
-.row-name .name-fields {
-  display: flex;
-  gap: 10px;
+/* สำหรับ input ที่มีไอคอน */
+.input-with-icon {
+  position: relative;
   width: 100%;
 }
 
-.row-name .name-fields input {
-  flex: 1;
+.input-with-icon i {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #87cbb9;
 }
+
+.input-with-icon input {
+  width: 100%;
+  padding: 10px 10px 10px 35px; /* เผื่อที่ให้ไอคอนอยู่ข้างใน */
+  border: 1px solid #bdebd5;
+  border-radius: 8px;
+  background-color: #f8fffb;
+}
+
+.name-fields {
+  display: flex;
+  gap: 10px;
+}
+
 .red{
   color: red;
 
@@ -130,21 +148,24 @@ form {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 15px 25px;
-  border-radius: 8px;
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  z-index: 1000;
-  animation: fadeInOut 3s ease;
+  padding: 16px 24px;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  font-size: 1.1rem;
+  font-weight: 500;
+  z-index: 9999;
+  animation: fadeInOut 3s ease forwards;
 }
 
 .popup.success {
-  background-color: #4caf50;
+  border-left: 6px solid #4CAF50;
+  color: #2e7d32;
 }
 
 .popup.error {
-  background-color: #f44336;
+  border-left: 6px solid #f44336;
+  color: #b71c1c;
 }
 
 @keyframes fadeInOut {

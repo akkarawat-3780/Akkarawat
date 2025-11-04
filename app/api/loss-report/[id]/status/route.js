@@ -5,8 +5,7 @@ import { cookies } from "next/headers";
 export async function PUT(req, { params }) {
   try {
     const { id } = await params;
-    const { status } = await req.json();
-
+    const { status, remark } = await req.json();
     const cookieStore = cookies();
     const admin_email = cookieStore.get("email")?.value;
 
@@ -17,14 +16,14 @@ export async function PUT(req, { params }) {
       );
     }
 
-    // ✅ whitelist สถานะที่อนุญาต
+    // ✅ สถานะใหม่ที่อนุญาต
     const allowedStatuses = [
-      "รอตรวจสอบการแจ้งหาย",
+      "รอการตรวจสอบ",
       "รอการชำระเงิน",
-      "รอตรวจสอบการชำระเงิน",
-      "อนุมัติการชำระเงิน",
-      "ชำระเงินไม่ถูกต้อง",
-      "ไม่อนุมัติการแจ้งหาย",
+      "รอการอนุมัติ",
+      "อนุมัติ",
+      "ไม่อนุมัติ",
+      "ยกเลิก",
     ];
 
     if (!allowedStatuses.includes(status)) {
@@ -34,11 +33,11 @@ export async function PUT(req, { params }) {
       );
     }
 
-    // ✅ ตรวจสอบว่ารายงานมีอยู่จริง
     const [rows] = await db.execute(
       "SELECT * FROM bicycle_loss_report WHERE LossReport_ID = ?",
       [id]
     );
+
     if (rows.length === 0) {
       return NextResponse.json(
         { message: "ไม่พบข้อมูลการแจ้งหาย" },
@@ -46,18 +45,28 @@ export async function PUT(req, { params }) {
       );
     }
 
-    // ✅ อัปเดตสถานะ + admin_email
+    const report = rows[0];
+
     await db.execute(
-    `UPDATE bicycle_loss_report 
-     SET LossReport_Status = ?, admin_email = ? 
-     WHERE LossReport_ID = ?`,
-    [status, admin_email, id]
+      `UPDATE bicycle_loss_report 
+       SET LossReport_Status = ?, admin_email = ?, remark = ? 
+       WHERE LossReport_ID = ?`,
+      [status, admin_email, remark || null, id]
     );
+
+    // ✅ ถ้า “ไม่อนุมัติ” หรือ “ยกเลิก” → ปล่อยจักรยาน
+    if ((status === "ไม่อนุมัติ" || status === "ยกเลิก") && report.Bicycle_ID) {
+      await db.execute(
+        `UPDATE bicycle SET Bicycle_Status = 'ว่าง' WHERE Bicycle_ID = ?`,
+        [report.Bicycle_ID]
+      );
+    }
 
     return NextResponse.json({
       message: "อัปเดตสถานะสำเร็จ",
       status,
       admin_email: admin_email || null,
+      remark: remark || null,
     });
   } catch (err) {
     console.error("PUT /api/loss-report/[id]/status error:", err);

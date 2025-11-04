@@ -12,12 +12,13 @@ export async function GET() {
     }
 
     const [rows] = await db.execute(
-      `SELECT Borrow_ID, Bicycle_ID, Borrow_Date, due_date, return_date, borrow_status,admin_email
-       FROM bicycle_borrow_request
-       WHERE nisit_email = ? 
-       ORDER BY Borrow_Date DESC`,
+      `SELECT Borrow_ID, Bicycle_ID, Borrow_Date, due_date, return_date, borrow_status, admin_email
+      FROM bicycle_borrow_request
+      WHERE nisit_email = ?
+      ORDER BY CAST(SUBSTRING(Borrow_ID, 3) AS UNSIGNED) DESC`,
       [nisit_email]
     );
+
 
     return NextResponse.json(rows);
   } catch (err) {

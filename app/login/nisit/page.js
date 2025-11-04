@@ -7,6 +7,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
  const handleLogin = async (e) => {
   e.preventDefault();
@@ -21,8 +22,6 @@ export default function LoginPage() {
   if (res.ok && result.success) {
     if (result.role === 'nisit') {
       window.location.href = '/nisit';
-    } else {
-      window.location.href = '/admin';
     }
   } else {
     setError('Email หรือ Password ไม่ถูกต้อง');
@@ -45,8 +44,18 @@ export default function LoginPage() {
         </div>
         <div className="row">
           <i className="fas fa-lock"></i>
-          <input type="password" placeholder="Password" value={password}
-          onChange={(e) => setPassword(e.target.value)} required />
+          {/* เปลี่ยน type ของ input ตาม state */}
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} required
+          />
+          {/* ปุ่มสำหรับ toggle การแสดงรหัสผ่าน */}
+          <i
+            className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'} password-toggle-icon`}
+            onClick={() => setShowPassword(!showPassword)}
+          ></i>
         </div>
         <div>
           {error && <p className="error">{error}</p>}
@@ -58,8 +67,6 @@ export default function LoginPage() {
           <button type="submit">เข้าสู่ระบบ</button>
         </div>
          <div className="signup-link"><p><a href='/register'>สมัครสมาชิก</a></p></div>
-        
-        
       </form>
     </div>
   );

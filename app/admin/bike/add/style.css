@@ -43,3 +43,35 @@ body{
 .bike-form button:hover {
   background-color: #285e61;
 }
+/* Popup success/error */
+.success-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 16px 24px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  font-size: 1.1rem;
+  font-weight: 500;
+  z-index: 9999;
+  text-align: center;
+  animation: fadeInOut 3s ease forwards;
+}
+
+.success-popup.success {
+  border-left: 6px solid #4CAF50;
+  color: #2e7d32;
+}
+
+.success-popup.error {
+  border-left: 6px solid #f44336;
+  color: #b71c1c;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, -45%); }
+  10%, 90% { opacity: 1; transform: translate(-50%, -50%); }
+  100% { opacity: 0; transform: translate(-50%, -55%); }
+}

@@ -29,28 +29,6 @@ export async function POST(req) {
       }
     }
 
-    // ตรวจ nisit
-    // const [nisitRows] = await db.execute(
-    //   'SELECT * FROM nisits WHERE nisit_email = ?',
-    //   [email]
-    // );
-
-    // if (nisitRows.length > 0) {
-    //   const user = nisitRows[0];
-    //   const match = await bcrypt.compare(password, user.Password);
-
-    //   if (match) {
-    //     cookieStore.set('email', email, { httpOnly: true, path: '/' });
-    //     cookieStore.set('role', 'nisit', { httpOnly: true, path: '/' });
-    //     cookieStore.set('profile', user.profile || '/default-profile.png', {
-    //       httpOnly: false,
-    //       path: '/'
-    //     });
-
-    //     return Response.json({ success: true, role: 'nisit' });
-    //   }
-    // }
-
     return new Response(JSON.stringify({ success: false }), { status: 401 });
 
   } catch (err) {

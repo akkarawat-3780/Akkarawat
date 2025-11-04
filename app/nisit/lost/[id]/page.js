@@ -83,7 +83,7 @@ export default function LostPaymentPage() {
         <p><b>รหัสแจ้งหาย:</b> {report.LossReport_ID}</p>
         <p><b>รหัสจักรยาน:</b> {report.Bicycle_ID}</p>
         <p><b>สถานะปัจจุบัน:</b> {report.LossReport_Status}</p>
-        <p><b>ยอดที่ต้องชำระ:</b> 3,000 บาท</p>
+        <p><b>ยอดที่ต้องชำระ:</b> 1500 บาท</p>
         <p><b>บัญชีธนาคาร:</b> 123-456-7890 (ธนาคารกรุงไทย)</p>
       </div>
 

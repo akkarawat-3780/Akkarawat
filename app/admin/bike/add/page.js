@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import './style.css'; // คุณสามารถสร้างไฟล์นี้แยกต่างหาก
+import './style.css';
 
 export default function AddBikePage() {
   const [form, setForm] = useState({
@@ -10,7 +10,16 @@ export default function AddBikePage() {
     Bicycle_Status: 'ว่าง',
   });
   const [file, setFile] = useState(null);
+  const [popup, setPopup] = useState({ show: false, message: '', type: 'success' }); // ✅ popup
   const router = useRouter();
+
+  const showPopup = (message, type = 'success', redirect = false) => {
+    setPopup({ show: true, message, type });
+    setTimeout(() => {
+      setPopup({ show: false, message: '', type: 'success' });
+      if (redirect) router.push('/admin/bike');
+    }, 3000);
+  };
 
   const handleInput = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -31,6 +40,12 @@ export default function AddBikePage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!form.Bicycle_ID || !file) {
+      showPopup('❌ กรุณากรอกข้อมูลและเลือกรูปภาพให้ครบถ้วน', 'error');
+      return;
+    }
+
     const imagePath = await handleUpload();
 
     const res = await fetch('/api/bikes', {
@@ -40,10 +55,9 @@ export default function AddBikePage() {
     });
 
     if (res.ok) {
-      alert('เพิ่มจักรยานเรียบร้อย');
-      router.push('/admin/bike');
+      showPopup('✅ เพิ่มจักรยานเรียบร้อย', 'success', true);
     } else {
-      alert('เกิดข้อผิดพลาด');
+      showPopup('❌ เกิดข้อผิดพลาดในการเพิ่มจักรยาน', 'error');
     }
   };
 
@@ -64,7 +78,11 @@ export default function AddBikePage() {
         <input type="file" accept="image/*" onChange={handleFileChange} required />
 
         <label>สถานะ:</label>
-        <select name="Bicycle_Status" value={form.Bicycle_Status} onChange={handleInput}>
+        <select
+          name="Bicycle_Status"
+          value={form.Bicycle_Status}
+          onChange={handleInput}
+        >
           <option value="ว่าง">ว่าง</option>
           <option value="อยู่ระหว่างการตรวจสอบ">อยู่ระหว่างการตรวจสอบ</option>
           <option value="ไม่พร้อมใช้งาน">ไม่พร้อมใช้งาน</option>
@@ -72,6 +90,13 @@ export default function AddBikePage() {
 
         <button type="submit">เพิ่มจักรยาน</button>
       </form>
+
+      {/* ✅ Popup กลางจอ */}
+      {popup.show && (
+        <div className={`success-popup ${popup.type}`}>
+          {popup.message}
+        </div>
+      )}
     </div>
   );
 }

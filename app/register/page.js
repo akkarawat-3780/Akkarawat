@@ -23,6 +23,7 @@ export default function RegisterPage() {
     nisit_id: '',
     phone: '',
     email: '',
+    password: '',
   });
 
   // ✅ popup สำหรับแจ้งผลลัพธ์
@@ -56,10 +57,15 @@ export default function RegisterPage() {
       valid = false;
     }
 
-    if (!/^[^\s@]+@(gmail\.com|ku\.th)$/.test(form.email)) {
-      newErrors.email = 'อีเมลต้องลงท้ายด้วย @gmail.com หรือ @ku.th เท่านั้น';
+    if (!/^[^\s@]+@(ku\.th)$/.test(form.email)) {
+      newErrors.email = 'อีเมลต้องลงท้ายด้วย @ku.th เท่านั้น';
       valid = false;
     }
+    if (!form.password || form.password.length < 8) {
+      newErrors.password = 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร';
+      valid = false;
+   }
+
 
     setErrors(newErrors);
     return valid;
@@ -123,7 +129,7 @@ export default function RegisterPage() {
           ? ''
           : field === 'phone' && /^0[0-9]{9}$/.test(value)
           ? ''
-          : field === 'email' && /^[^\s@]+@(gmail\.com|ku\.th)$/.test(value)
+          : field === 'email' && /^[^\s@]+@(ku\.th)$/.test(value)
           ? ''
           : prev[field],
     }));
@@ -163,10 +169,24 @@ export default function RegisterPage() {
 
         {/* 🔹 ชื่อ-นามสกุล */}
         <div className="row row-name">
-          <i className="fas fa-user"></i>
           <div className="name-fields">
-            <input required placeholder="ชื่อ" onChange={e => handleChange('first_name', e.target.value)} />
-            <input required placeholder="นามสกุล" onChange={e => handleChange('last_name', e.target.value)} />
+            <div className="input-with-icon">
+              <i className="fas fa-user"></i>
+              <input
+                required
+                placeholder="ชื่อ"
+                onChange={e => handleChange('first_name', e.target.value)}
+              />
+            </div>
+
+            <div className="input-with-icon">
+              <i className="fas fa-user"></i>
+              <input
+                required
+                placeholder="นามสกุล"
+                onChange={e => handleChange('last_name', e.target.value)}
+              />
+            </div>
           </div>
         </div>
 
@@ -211,6 +231,7 @@ export default function RegisterPage() {
           <i className="fas fa-lock"></i>
           <input required type="password" placeholder="รหัสผ่าน" onChange={e => handleChange('password', e.target.value)} />
         </div>
+        {errors.password && <p className="error-text">{errors.password}</p>}
 
         {/* 🔹 เบอร์โทร */}
         <div className="row">

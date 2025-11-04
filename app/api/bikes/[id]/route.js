@@ -18,7 +18,7 @@ export async function GET(_, { params }) {
 }
 
 export async function PUT(req, { params }) {
-  const { id } = params;
+  const { id } = await params;
   const data = await req.json();
   const { Image, Bicycle_Status } = data;
 

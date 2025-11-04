@@ -61,7 +61,7 @@ export async function PUT(req, context) {
     // 🔹 อัปเดตสถานะ + แนบสลิป
     const [result] = await db.execute(
       `UPDATE bicycle_loss_report
-       SET LossReport_Status = 'รอตรวจสอบการชำระเงิน',
+       SET LossReport_Status = 'รอการอนุมัติ',
            LossReport_receipt = ?
        WHERE LossReport_ID = ?`,
       [receipt, id]
@@ -72,7 +72,7 @@ export async function PUT(req, context) {
     }
 
     return NextResponse.json({
-      message: "✅ อัปโหลดสลิปและอัปเดตสถานะเป็น 'รอตรวจสอบการชำระเงิน' สำเร็จ",
+      message: "✅ อัปโหลดสลิปและอัปเดตสถานะเป็น 'รอการอนุมัติ' สำเร็จ",
       receipt,
     });
   } catch (err) {

@@ -25,6 +25,8 @@ export default function RegisterPage() {
     email: '',
   });
 
+  const [popup, setPopup] = useState({ show: false, message: '', type: '' });
+
   useEffect(() => {
     fetch('/api/faculties')
       .then(res => res.json())
@@ -53,13 +55,24 @@ export default function RegisterPage() {
       valid = false;
     }
 
-    if (!/^[^\s@]+@(gmail\.com|ku\.th)$/.test(form.email)) {
-      newErrors.email = 'อีเมลต้องลงท้ายด้วย @gmail.com หรือ @ku.th เท่านั้น';
+    if (!/^[^\s@]+@(ku\.th)$/.test(form.email)) {
+      newErrors.email = 'อีเมลต้องลงท้ายด้วย @ku.th เท่านั้น';
       valid = false;
-    }
+    }if (!form.password || form.password.length < 8) {
+      newErrors.password = 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร';
+      valid = false;
+   }
 
     setErrors(newErrors);
     return valid;
+  };
+
+  const showPopup = (message, type = 'success', redirect = false) => {
+    setPopup({ show: true, message, type });
+    setTimeout(() => {
+      setPopup({ show: false, message: '', type: '' });
+      if (redirect) window.location.href = '/admin/member';
+    }, 2500);
   };
 
   const handleSubmit = async (e) => {
@@ -73,10 +86,9 @@ export default function RegisterPage() {
     });
 
     if (res.ok) {
-      alert('เพิ่มสมาชิกสำเร็จ');
-      window.location.href = '/admin/member';
+      showPopup('✅ เพิ่มข้อมูลสมาชิกสำเร็จ!', 'success', true);
     } else {
-      alert('เกิดข้อผิดพลาดในการสมัครสมาชิก');
+      showPopup('❌ เกิดข้อผิดพลาดในการเพิ่มข้อมูล', 'error');
     }
   };
 
@@ -91,7 +103,7 @@ export default function RegisterPage() {
           ? ''
           : field === 'phone' && /^0[0-9]{9}$/.test(value)
           ? ''
-          : field === 'email' && /^[^\s@]+@(gmail\.com|ku\.th)$/.test(value)
+          : field === 'email' && /^[^\s@]+@(ku\.th)$/.test(value)
           ? ''
           : prev[field],
     }));
@@ -179,6 +191,7 @@ export default function RegisterPage() {
           <i className="fas fa-lock"></i>
           <input required type="password" placeholder="รหัสผ่าน" onChange={e => handleChange('password', e.target.value)} />
         </div>
+        {errors.password && <p className="error-text">{errors.password}</p>}
 
         {/* 🔹 เบอร์โทร */}
         <div className="row">
@@ -197,6 +210,13 @@ export default function RegisterPage() {
           <button type="submit">เพิ่มข้อมูลสมาชิก</button>
         </div>
       </form>
+
+      {/* ✅ Popup แจ้งผลลัพธ์ */}
+      {popup.show && (
+        <div className={`popup ${popup.type}`}>
+          {popup.message}
+        </div>
+      )}
     </div>
   );
 }

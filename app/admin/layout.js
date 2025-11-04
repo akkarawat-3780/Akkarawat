@@ -39,15 +39,18 @@ export default function Navbar({ children }) {
         <h2 className='logo'>🚲 KU-Bike</h2>
 
         <div className="navbar-right" ref={dropdownRef}>
-          <img
-            src={profile}
-            alt="Profile"
-            className="profile-img"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = '/default-profile.png';
-            }}
-          />
+          <Link href="/admin/profile/admin">
+            <img
+              src={profile}
+              alt="Profile"
+              className="profile-img"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/default-profile.png';
+              }}
+              style={{ cursor: 'pointer' }}
+            />
+          </Link>
         </div>
       </nav>
 

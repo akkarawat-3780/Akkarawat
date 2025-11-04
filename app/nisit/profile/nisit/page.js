@@ -1,14 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import "./style.css"
+import "./style.css";
 
 export default function ProfilePage() {
   const [user, setUser] = useState(null);
-  const [newPassword, setNewPassword] = useState('');
   const [profileFile, setProfileFile] = useState(null);
   const [faculties, setFaculties] = useState([]);
   const [departments, setDepartments] = useState([]);
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  const [popup, setPopup] = useState({ show: false, message: "", type: "" }); // ✅ state popup
 
   useEffect(() => {
     // โหลดข้อมูลนิสิต
@@ -29,19 +31,27 @@ export default function ProfilePage() {
       .then(setFaculties);
   }, []);
 
-  const [previewUrl, setPreviewUrl] = useState(null);
-  const handleChange = (e) => {
-    setAdmin({ ...admin, [e.target.name]: e.target.value })
+  // ✅ popup แสดงข้อความ
+  const showPopup = (message, type = "success") => {
+    setPopup({ show: true, message, type });
+    setTimeout(() => {
+      setPopup({ show: false, message: "", type: "" });
+      if (type === "success") window.location.reload(); // รีโหลดเมื่อบันทึกสำเร็จ
+    }, 2500);
   };
-// ใน handleChange สำหรับไฟล์ภาพ
-const handleFileChange = (e) => {
-  const file = e.target.files[0];
-  setProfileFile(file);
-  if (file) {
-    const url = URL.createObjectURL(file);
-    setPreviewUrl(url);
-  }
-};
+
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setProfileFile(file);
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+    }
+  };
 
   const handleUpload = async () => {
     const formData = new FormData();
@@ -59,53 +69,53 @@ const handleFileChange = (e) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let profilePath = user.profile;
-    if (profileFile) {
-      profilePath = await handleUpload();
-    }
+    try {
+      let profilePath = user.profile;
+      if (profileFile) {
+        profilePath = await handleUpload();
+      }
 
-    const res = await fetch('/api/profile/nisit', {
-      method: 'PUT',
-      body: JSON.stringify({ ...user, profile: profilePath }),
-      headers: { 'Content-Type': 'application/json' },
-    });
+      const res = await fetch('/api/profile/nisit', {
+        method: 'PUT',
+        body: JSON.stringify({ ...user, profile: profilePath }),
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-    if (res.ok) {
-      alert('บันทึกข้อมูลเรียบร้อย');
-      document.cookie = `profile=${encodeURIComponent(profilePath)}; path=/`;
+      if (res.ok) {
+        document.cookie = `profile=${encodeURIComponent(profilePath)}; path=/`;
+        showPopup("✅ บันทึกข้อมูลเรียบร้อย", "success");
+      } else {
+        showPopup("❌ เกิดข้อผิดพลาดในการบันทึกข้อมูล", "error");
+      }
+    } catch (err) {
+      console.error("update error:", err);
+      showPopup("❌ ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้", "error");
     }
   };
 
-  if (!user) return <p>Loading...</p>;
+  if (!user) return <p>⏳ กำลังโหลด...</p>;
 
   return (
     <div className="wrapper">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+      <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      />
       <form onSubmit={handleSubmit}>
         <h1 className='title'>แก้ไขข้อมูลนิสิต</h1>
 
         <div className="row">
-          <img src={previewUrl || user.profile} alt="profile" className="profile-preview"/>
+          <img src={previewUrl || user.profile} alt="profile" className="profile-preview" />
         </div>
 
         <div className="row">
-          <i className="fas fa-envelope"></i>
-          <input type="file" accept="image/*" onChange={handleFileChange}/>
+          <i className="fas fa-image"></i>
+          <input type="file" accept="image/*" onChange={handleFileChange} />
         </div>
 
         <div className="row">
           <i className="fas fa-id-card"></i>
           <input value={user.Nisit_ID} readOnly disabled />
         </div>
-
-        {/* <div className="row">
-          <i className="fas fa-user-tag"></i>
-          <select name="prefix" value={user.prefix} onChange={handleChange}>
-            <option value="นาย">นาย</option>
-            <option value="นาง">นาง</option>
-            <option value="นางสาว">นางสาว</option>
-          </select>
-        </div> */}
 
         <div className="row row-name">
           <i className="fas fa-user"></i>
@@ -114,7 +124,6 @@ const handleFileChange = (e) => {
             <input placeholder="นามสกุล" name="Last_Name" value={user.Last_Name} onChange={handleChange} />
           </div>
         </div>
-
 
         <div className="row">
           <i className="fas fa-building-columns"></i>
@@ -148,10 +157,20 @@ const handleFileChange = (e) => {
         </div>
 
         <div className="button">
-          <button type="submit">บันทึกข้อมูล</button>
-          <a href="/nisit/profile/nisit/password" className="link-button">เปลี่ยนรหัสผ่าน</a>
+          <button type="submit">💾 บันทึกข้อมูล</button>
+          <a href="/nisit/profile/nisit/password" className="link-button">🔐 เปลี่ยนรหัสผ่าน</a>
         </div>
       </form>
+
+      {/* ✅ Popup แจ้งผล */}
+      {popup.show && (
+        <div className={`popup-overlay ${popup.type}`}>
+          <div className="popup-box">
+            <h3>{popup.type === "success" ? "✅ สำเร็จ" : "❌ ข้อผิดพลาด"}</h3>
+            <p>{popup.message}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

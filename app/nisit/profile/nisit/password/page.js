@@ -7,16 +7,26 @@ export default function AdminChangePasswordPage() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [popup, setPopup] = useState({ show: false, message: "", type: "success" });
+
+  // 👁️ สถานะซ่อน/แสดงรหัสผ่าน
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const showPopup = (message, type = "success") => {
+    setPopup({ show: true, message, type });
+    setTimeout(() => setPopup({ show: false, message: "", type }), 3000);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (newPassword.length < 6) {
-      alert("❌ รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร");
+    if (newPassword.length < 8) {
+      showPopup("❌ รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร", "error");
       return;
     }
     if (newPassword !== confirmPassword) {
-      alert("❌ รหัสผ่านไม่ตรงกัน");
+      showPopup("❌ รหัสผ่านไม่ตรงกัน", "error");
       return;
     }
 
@@ -29,10 +39,10 @@ export default function AdminChangePasswordPage() {
 
     setLoading(false);
     if (res.ok) {
-      alert("✅ เปลี่ยนรหัสผ่านสำเร็จ");
-      window.location.href = "/nisit/profile/nisit"; // กลับไปหน้าข้อมูลส่วนตัว
+      showPopup("✅ เปลี่ยนรหัสผ่านสำเร็จ", "success");
+      setTimeout(() => (window.location.href = "/nisit/profile/nisit"), 1500);
     } else {
-      alert("❌ ไม่สามารถเปลี่ยนรหัสผ่านได้");
+      showPopup("❌ ไม่สามารถเปลี่ยนรหัสผ่านได้", "error");
     }
   };
 
@@ -42,27 +52,38 @@ export default function AdminChangePasswordPage() {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
       />
+
       <form onSubmit={handleSubmit}>
         <h1 className="title">🔒 เปลี่ยนรหัสผ่าน</h1>
 
+        {/* ช่องรหัสผ่านใหม่ */}
         <div className="row">
           <i className="fas fa-lock"></i>
           <input
-            type="password"
+            type={showNewPassword ? "text" : "password"}
             placeholder="รหัสผ่านใหม่"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
           />
+          <i
+            className={`fa-solid ${showNewPassword ? "fa-eye-slash" : "fa-eye"} toggle-password`}
+            onClick={() => setShowNewPassword(!showNewPassword)}
+          ></i>
         </div>
 
+        {/* ช่องยืนยันรหัสผ่านใหม่ */}
         <div className="row">
           <i className="fas fa-lock"></i>
           <input
-            type="password"
+            type={showConfirmPassword ? "text" : "password"}
             placeholder="ยืนยันรหัสผ่านใหม่"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
+          <i
+            className={`fa-solid ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"} toggle-password`}
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          ></i>
         </div>
 
         <div className="button">
@@ -72,6 +93,13 @@ export default function AdminChangePasswordPage() {
           <a href="/nisit/profile/nisit" className="link-button">⬅ ย้อนกลับ</a>
         </div>
       </form>
+
+      {/* ✅ Popup แจ้งเตือน */}
+      {popup.show && (
+        <div className={`success-popup ${popup.type}`}>
+          {popup.message}
+        </div>
+      )}
     </div>
   );
 }

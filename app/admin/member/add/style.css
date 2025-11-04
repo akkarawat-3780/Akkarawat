@@ -124,3 +124,34 @@ form {
   outline: none;
   box-shadow: 0 0 6px rgba(255, 0, 0, 0.5);
 }
+/* Popup */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 10px;
+  padding: 20px 30px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  font-size: 18px;
+  z-index: 9999;
+  text-align: center;
+  animation: fadeInOut 3s ease forwards;
+}
+
+.popup.success {
+  border-left: 6px solid #28a745;
+  color: #28a745;
+}
+
+.popup.error {
+  border-left: 6px solid #dc3545;
+  color: #dc3545;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, -60%); }
+  10%, 90% { opacity: 1; transform: translate(-50%, -50%); }
+  100% { opacity: 0; transform: translate(-50%, -40%); }
+}
